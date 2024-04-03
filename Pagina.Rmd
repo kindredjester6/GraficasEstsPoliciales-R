@@ -1,9 +1,14 @@
+---
+---
+---
+
 ```{r}
 
 #install.packages("readxl")
 
 library(readxl)
-
+library(dplyr)
+library(ggplot2)
 ```
 
 ```{r}
@@ -11,4 +16,13 @@ Ruta_archivo <- "est_pol_2024.xls"
 
 datos <- read_excel(Ruta_archivo)
 
+```
+
+```{r}
+
+dfTest <- head(datos, n=20)
+grafTest <- dfTest %>% ggplot(aes(x=Delito, y=1)) +
+  geom_bar(stat = "identity", aes(fill="red"))
+
+grafTest
 ```
