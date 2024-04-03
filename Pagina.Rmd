@@ -1,0 +1,14 @@
+```{r}
+
+#install.packages("readxl")
+
+library(readxl)
+
+```
+
+```{r}
+Ruta_archivo <- "est_pol_2024.xls"
+
+datos <- read_excel(Ruta_archivo)
+
+```
