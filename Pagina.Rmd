@@ -32,8 +32,14 @@ dfDelitos
 
 dfGenero <- datos %>% ggplot() +
   geom_mosaic(aes(x=product(Genero), fill=Genero),
-              divider = c("hspine"), offset = TRUE) +
-  geom_mosaic_text(aes(x = product(Genero), fill = Genero))+
+             offset = 0) +
+  geom_mosaic_text(aes(x = product(Genero), fill = Genero), offset = 0)+
   theme(legend.position = "top")
 dfGenero
+```
+
+```{r}
+#tres varibles 
+
+
 ```
