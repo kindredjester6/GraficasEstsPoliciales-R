@@ -9,6 +9,7 @@
 library(readxl)
 library(dplyr)
 library(ggplot2)
+library(ggmosaic)
 ```
 
 ```{r}
@@ -19,10 +20,20 @@ datos <- read_excel(Ruta_archivo)
 ```
 
 ```{r}
+dfTest <- head(datos, n=)
+dfDelitos <- datos %>% ggplot(aes(x=Delito, y=1)) +
+  geom_bar(stat = "identity", aes(fill="")) +
+  theme(legend.position = "none") +
+  labs(y="Numero de delitos")
+dfDelitos
+```
 
-dfTest <- head(datos, n=20)
-grafTest <- dfTest %>% ggplot(aes(x=Delito, y=1)) +
-  geom_bar(stat = "identity", aes(fill="red"))
+```{r}
 
-grafTest
+dfGenero <- datos %>% ggplot() +
+  geom_mosaic(aes(x=product(Genero), fill=Genero),
+              divider = c("hspine"), offset = TRUE) +
+  geom_mosaic_text(aes(x = product(Genero), fill = Genero))+
+  theme(legend.position = "top")
+dfGenero
 ```
