@@ -20,6 +20,7 @@ datos <- read_excel(Ruta_archivo)
 ```
 
 ```{r}
+#1 variable
 dfTest <- head(datos, n=)
 dfDelitos <- datos %>% ggplot(aes(x=Delito, y=1)) +
   geom_bar(stat = "identity", aes(fill="")) +
@@ -29,7 +30,7 @@ dfDelitos
 ```
 
 ```{r}
-
+#1 variable
 dfGenero <- datos %>% ggplot() +
   geom_mosaic(aes(x=product(Genero), fill=Genero),
              offset = 0) +
@@ -39,7 +40,27 @@ dfGenero
 ```
 
 ```{r}
-#multivariable grafica
+#1 variable
+dfVictima <- datos %>% 
+  ggplot(aes(x = "", y = ..count.., fill = Victima)) +
+  geom_bar(stat = "count") +
+  coord_polar("y", start = 0) + 
+  theme_void() + 
+  labs(title = "Distribucion de Victimas") 
+dfVictima
 
+```
+
+```{r}
+# 3 variables
+dfVicEdad <- datos %>% 
+  ggplot(aes(x = Victima, fill = Victima)) +
+  geom_bar() +
+  facet_wrap(~Edad) +  
+  labs(title = "Comparacion de victima por edad", x = "Victima", y = "Cantidad") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+print(dfVicEdad)
 
 ```
