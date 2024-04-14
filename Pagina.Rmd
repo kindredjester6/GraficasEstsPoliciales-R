@@ -41,14 +41,30 @@ dfGenero
 
 ```{r}
 #1 variable
-dfVictima <- datos %>% 
-  ggplot(aes(x = "", y = ..count.., fill = Victima)) +
-  geom_bar(stat = "count") +
-  coord_polar("y", start = 0) + 
-  theme_void() + 
-  labs(title = "Distribucion de Victimas") 
+dfVictima <- datos %>%
+  ggplot(aes(x = Victima)) +
+  geom_bar() +
+  labs(title = "Distribution of Victims", x = "Victima", y = "Cantidad") +
+  theme_minimal() 
 dfVictima
 
+```
+
+
+```{r}
+#1 variable
+data_summary <- datos %>%
+  group_by(Fecha) %>%
+  summarise(count = n())
+
+line_graph <- ggplot(data_summary, aes(x = Fecha, y = count)) +
+  geom_line() +
+  labs(title = "Cantidad de delitos con el tiempo", x = "Fecha", y = "Cantidad") +
+  theme_minimal() +
+  scale_x_date(date_breaks = "10 days", date_labels = "%Y-%m-%d") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  
+
+print(line_graph)
 ```
 
 ```{r}
