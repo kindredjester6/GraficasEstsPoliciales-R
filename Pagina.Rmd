@@ -20,13 +20,26 @@ datos <- read_excel(Ruta_archivo)
 ```
 
 ```{r}
+cat("La presente página tiene como objetivo mostrar una representación visual de varios datos que se nos brindaron con relación a las estadísticas policiales en Costa Rica. Estas  se exhiben en varios métodos con tal de hacerlas ver interesantes y comprensibles.")
+```
+
+```{r}
+cat("1. La siguiente gráfica presenta en forma de barras, una comparación en cuanto a los tipos de delito que se han reportado. A partir de esto podemos deducir que el hurto es el delito más común, mientras que el homicidio es el menos ocurrido.")
+```
+
+```{r}
 #1 variable
 dfTest <- head(datos, n=)
 dfDelitos <- datos %>% ggplot(aes(x=Delito, y=1)) +
   geom_bar(stat = "identity", aes(fill="")) +
-  theme(legend.position = "none") +
-  labs(y="Numero de delitos")
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  labs(y = "Numero de delitos")
 dfDelitos
+```
+
+```{r}
+cat("2. Como se puede apreciar en la siguiente gráfica la cual presenta un mosaico distribuido proporcionalmente de acuerdo a la cantidad de víctimas divididas por género, la gran mayoría de víctimas han sido del género masculino,abarcando más de la mitad de sucesos reportados, mientras que la cantidad de víctimas de genero femenino es notablemente menor, y casos donde se desconoce el género de la víctima los menos comunes.")
 ```
 
 ```{r}
@@ -40,31 +53,25 @@ dfGenero
 ```
 
 ```{r}
+cat("3. En esta gráfica podemos observar los tipos de víctima afectada en forma de strip plots, de manera que se muestran los casos como puntos en la gráfica de acuerdo al tipo. Entre más densa la población en cada espacio, mayor la cantidad de ocurrencias donde esa fue la víctima afectada. En este caso, observamos que la situación donde la víctima es una persona es significativamente mayor que las demás. Además, existe una similar cantidad donde la víctima es un bien material como vivienda o vehículo.")
+```
+
+```{r}
 #1 variable
 dfVictima <- datos %>%
-  ggplot(aes(x = Victima)) +
-  geom_bar() +
-  labs(title = "Distribution of Victims", x = "Victima", y = "Cantidad") +
-  theme_minimal() 
+  ggplot(aes(x = Victima, y = 0)) +  
+  geom_jitter(alpha = 0.7) +  
+  labs(title = "Distribucion de Victimas", x = "Victima", y = NULL) +
+  theme_minimal() +
+  theme(axis.title.y = element_blank(),  
+        panel.grid.major.y = element_blank(), 
+        panel.grid.minor.y = element_blank()) 
 dfVictima
 
 ```
 
-
 ```{r}
-#1 variable
-data_summary <- datos %>%
-  group_by(Fecha) %>%
-  summarise(count = n())
-
-line_graph <- ggplot(data_summary, aes(x = Fecha, y = count)) +
-  geom_line() +
-  labs(title = "Cantidad de delitos con el tiempo", x = "Fecha", y = "Cantidad") +
-  theme_minimal() +
-  scale_x_date(date_breaks = "10 days", date_labels = "%Y-%m-%d") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  
-
-print(line_graph)
+cat("4. En esta observamos una comparación tomando en cuenta dos variables, analizando tipo de delito por género de la víctima. Esto en forma de gráfica de barras apilada. De acuerdo a la distribución observamos que una gran cantidad tanto de hombres como mujeres sufren por hurto. No obstante, también se nota que gran parte de personas asaltadas son hombres. Además, podemos resaltar que el aspecto de homicidio, la gran mayoría de estas víctimas han sido varones.")
 ```
 
 ```{r}
@@ -80,6 +87,10 @@ print(dfDelGen)
 ```
 
 ```{r}
+cat("4. Podemos obtener a partir de esta grafica, una idea de la cantidad de cada tipo de delito de acuerdo a la hora del día. Según observamos, los hurtos son más comunes durante el pleno día, el cual es el más común, pero los otros delitos son más ocurrentes durante la noche. Por esto aun se puede deducir que salir durante la noche es menos seguro, pero aun así hay crímenes ocurriendo a toda hora por lo que se debe ser cuidadoso siempre.")
+```
+
+```{r}
 # 2 variables
 dfDelHor <- datos %>% 
   ggplot(aes(x = Hora, group = Delito, color = Delito)) +
@@ -92,15 +103,27 @@ print(dfDelHor)
 ```
 
 ```{r}
+cat("5. Variables multiples" )
+```
+
+```{r}
+cat("6. En la siguiente faceta de graficas se presenta una distribución de cantidad de delitos por provincia a la que pertenece la víctima, separados de acuerdo a la edad de esta víctima. De acuerdo a esta información podemos observar que el tipo de víctima más recurrente se puede identificar como adultos de San José.")
+```
+
+```{r}
 # Facetas
-dfVicEdad <- datos %>% 
-  ggplot(aes(x = Victima, fill = Victima)) +
+dfProvEdad <- datos %>% 
+  ggplot(aes(x = Provincia, fill = Provincia)) +
   geom_bar() +
   facet_wrap(~Edad) +  
-  labs(title = "Comparacion de victima por edad", x = "Victima", y = "Cantidad") +
+  labs(title = "Comparacion de victima por edad", x = "Provincia", y = "Cantidad") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
-print(dfVicEdad)
+print(dfProvEdad)
 
+```
+
+```{r}
+cat("7. Imagen compuesta" )
 ```
