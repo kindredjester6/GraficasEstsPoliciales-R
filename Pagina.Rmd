@@ -52,7 +52,31 @@ dfVictima
 ```
 
 ```{r}
-# 3 variables
+# 2 variables
+dfDelGen <-  ggplot(datos, aes(x = Delito, fill = Genero)) +
+  geom_bar(position = "stack", color = "black") +
+  labs(title = "Distribucion de Delito por Genero", x = "Delito", y = "Cantidad") +
+  theme_minimal() +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(dfDelGen)
+```
+
+```{r}
+# 2 variables
+dfDelHor <- datos %>% 
+  ggplot(aes(x = Hora, group = Delito, color = Delito)) +
+  geom_line(stat = "count") +
+  labs(title = "Comparacion de Delito por Hora", x = "Hora del dia", y = "Cantidad") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "bottom")
+
+print(dfDelHor)
+```
+
+```{r}
+# Facetas
 dfVicEdad <- datos %>% 
   ggplot(aes(x = Victima, fill = Victima)) +
   geom_bar() +
