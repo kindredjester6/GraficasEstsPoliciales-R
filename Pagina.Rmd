@@ -10,6 +10,8 @@ library(readxl)
 library(dplyr)
 library(ggplot2)
 library(ggmosaic)
+library(plotly)
+library(patchwork)
 ```
 
 ```{r}
@@ -126,4 +128,100 @@ print(dfProvEdad)
 
 ```{r}
 cat("7. Imagen compuesta" )
+```
+
+```{r}
+dfGrafOne <- datos %>% mutate(HoraCuan =  ifelse(Hora == "21:00:00 - 23:59:59", 0.7,
+                                                 ifelse(Hora == "18:00:00 - 20:59:59", 0.6,
+                                                        ifelse(Hora == "00:00:00 - 02:59:59", 0.0,
+                                                               ifelse(Hora == "03:00:00 - 05:59:59", 0.1,
+                                                                      ifelse(Hora == "06:00:00 - 08:59:59",0.2,
+                                                                             ifelse(Hora == "09:00:00 - 11:59:59",0.3,
+                                                                                    ifelse(Hora == "12:00:00 - 14:59:59",0.4,0.5)
+                                                                                    )
+                                                                             )
+                                                                      )
+                                                               )
+                                                        )
+                                                 )
+                                   )
+GrafOne <- dfGrafOne %>% ggplot(aes(x=HoraCuan)) +
+  geom_histogram(aes(y = after_stat(density)),binwidth = 0.1, color = "black", fill = "white") + 
+  geom_density(alpha = 0.3, aes(fill=Victima)) +
+  geom_vline(aes(xintercept = mean(HoraCuan)), color = "blue", linetype = "dashed", linewidth = 1) +
+  theme(axis.text.y = element_text(size = 6,
+                                   color = "red",
+                                   face = "bold"),
+        axis.text.x = element_text(size = 6, 
+                                   color = "blue",
+                                   face = "italic", 
+                                   angle = 320,
+                                   vjust = 0.9,
+                                   hjust = -0.009),
+        title = element_text(size = 14, 
+                             color = "Black",
+                             face = "italic"),
+        plot.title = element_text(vjust = -4.5),
+        axis.title = element_text(size = 12, 
+                                  color = "Black",
+                                  face = "bold"),
+        panel.background = element_rect(fill = "#707770"),
+        plot.subtitle = element_text(color = "gray",
+                                     hjust = 0.2 ),
+        legend.position = "none"
+        )
+
+
+grafThree <- 
+  datos %>% ggplot(aes(x=Delito, fill = Genero)) +
+  geom_bar()+
+  theme(axis.text.y = element_text(size = 6,
+                                   color = "red",
+                                   face = "bold"),
+        axis.text.x = element_text(size = 6, 
+                                   color = "blue",
+                                   face = "italic", 
+                                   angle = 320,
+                                   vjust = 0.9,
+                                   hjust = -0.009),
+        title = element_text(size = 14, 
+                             color = "Black",
+                             face = "italic"),
+        plot.title = element_text(vjust = -4.5),
+        axis.title = element_text(size = 12, 
+                                  color = "Black",
+                                  face = "bold"),
+        panel.background = element_rect(fill = "#707770"),
+        plot.subtitle = element_text(color = "gray",
+                                     hjust = 0.2 ),
+        legend.position = "none"
+        )
+  
+
+grafTwo <- 
+  datos %>% ggplot(aes(x=Provincia, fill = Provincia)) +
+  geom_bar(color = "black") +
+  theme(axis.text.y = element_text(size = 6,
+                                   color = "red",
+                                   face = "bold"),
+        axis.text.x = element_text(size = 6, 
+                                   color = "blue",
+                                   face = "italic", 
+                                   angle = 320,
+                                   vjust = 0.9,
+                                   hjust = -0.009),
+        title = element_text(size = 14, 
+                             color = "Black",
+                             face = "italic"),
+        plot.title = element_text(vjust = -4.5),
+        axis.title = element_text(size = 12, 
+                                  color = "Black",
+                                  face = "bold"),
+        panel.background = element_rect(fill = "#707770"),
+        plot.subtitle = element_text(color = "gray",
+                                     hjust = 0.2 ),
+        legend.position = "none"
+        )
+
+subplot(grafThree, grafTwo, GrafOne ,shareY = FALSE, nrows = 3, margin = 0.06 ) %>% layout(title ="Combined grafics")
 ```
