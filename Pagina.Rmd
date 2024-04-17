@@ -5,13 +5,16 @@
 ```{r}
 
 #install.packages("readxl")
-
+# install.packages("remotes") para instalar
+# remotes::install_github("d3treeR/d3treeR") d3treeR
 library(readxl)
 library(dplyr)
 library(ggplot2)
 library(ggmosaic)
 library(plotly)
 library(patchwork)
+library(d3treeR)
+library(treemap)
 ```
 
 ```{r}
@@ -224,4 +227,33 @@ grafTwo <-
         )
 
 subplot(grafThree, grafTwo, GrafOne ,shareY = FALSE, nrows = 3, margin = 0.06 ) %>% layout(title ="Combined grafics")
+```
+
+```{r}
+#5 variables
+dfTreemap <- datos 
+dfTreemap <- datos %>% mutate(value = ifelse(Delito == "ASALTO", 1,
+                                             ifelse(Delito == "HOMICIDIO", 1,
+                                                    ifelse(Delito == "HURTO", 1,
+                                                           ifelse(Delito == "ROBO", 1,
+                                                                  ifelse(Delito == "ROBO DE VEHICULO", 1, 1
+                                                                         )
+                                                                  )
+                                                           )
+
+                                                    )
+                                             )
+                              )
+grafThree = treemap(dfTreemap,
+            index=c("Delito", "SubDelito", "Provincia", "Canton", "Distrito"),
+            type="index",
+            vSize = "value",
+            palette = "Set2",
+            bg.labels=c("white"),
+            align.labels=list(
+              c("center", "center"), 
+              c("right", "bottom")))  
+
+treemapD3 = d3tree2( grafThree, rootname = "General" )
+treemapD3
 ```
