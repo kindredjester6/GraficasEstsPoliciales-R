@@ -2,7 +2,7 @@
 ---
 ---
 
-```{r}
+```{r echo=FALSE, include=FALSE}
 
 #install.packages("readxl")
 # install.packages("remotes") para instalar
@@ -17,51 +17,54 @@ library(d3treeR)
 library(treemap)
 ```
 
-```{r}
+```{r echo=FALSE}
 Ruta_archivo <- "est_pol_2024.xls"
 
 datos <- read_excel(Ruta_archivo)
 
 ```
 
-```{r}
+```{r echo=FALSE}
 cat("La presente página tiene como objetivo mostrar una representación visual de varios datos que se nos brindaron con relación a las estadísticas policiales en Costa Rica. Estas  se exhiben en varios métodos con tal de hacerlas ver interesantes y comprensibles.")
 ```
 
-```{r}
+```{r echo=FALSE}
 cat("1. La siguiente gráfica presenta en forma de barras, una comparación en cuanto a los tipos de delito que se han reportado. A partir de esto podemos deducir que el hurto es el delito más común, mientras que el homicidio es el menos ocurrido.")
 ```
 
-```{r}
+```{r echo=FALSE}
 #1 variable
-dfTest <- head(datos, n=)
 dfDelitos <- datos %>% ggplot(aes(x=Delito, y=1)) +
   geom_bar(stat = "identity", aes(fill="")) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 45, hjust = 1)) +  
   labs(y = "Numero de delitos")
-dfDelitos
+ggplotly(dfDelitos)
 ```
 
-```{r}
+```{r echo=FALSE}
 cat("2. Como se puede apreciar en la siguiente gráfica la cual presenta un mosaico distribuido proporcionalmente de acuerdo a la cantidad de víctimas divididas por género, la gran mayoría de víctimas han sido del género masculino,abarcando más de la mitad de sucesos reportados, mientras que la cantidad de víctimas de genero femenino es notablemente menor, y casos donde se desconoce el género de la víctima los menos comunes.")
 ```
 
-```{r}
+```{r echo=FALSE, include=FALSE}
 #1 variable
 dfGenero <- datos %>% ggplot() +
   geom_mosaic(aes(x=product(Genero), fill=Genero),
              offset = 0) +
   geom_mosaic_text(aes(x = product(Genero), fill = Genero), offset = 0)+
   theme(legend.position = "top")
-dfGenero
+plotlyMosaic <- ggplotly(dfGenero)
 ```
 
-```{r}
+```{r echo=FALSE}
+plotlyMosaic
+```
+
+```{r echo=FALSE}
 cat("3. En esta gráfica podemos observar los tipos de víctima afectada en forma de strip plots, de manera que se muestran los casos como puntos en la gráfica de acuerdo al tipo. Entre más densa la población en cada espacio, mayor la cantidad de ocurrencias donde esa fue la víctima afectada. En este caso, observamos que la situación donde la víctima es una persona es significativamente mayor que las demás. Además, existe una similar cantidad donde la víctima es un bien material como vivienda o vehículo.")
 ```
 
-```{r}
+```{r echo=FALSE}
 #1 variable
 dfVictima <- datos %>%
   ggplot(aes(x = Victima, y = 0)) +  
@@ -71,15 +74,14 @@ dfVictima <- datos %>%
   theme(axis.title.y = element_blank(),  
         panel.grid.major.y = element_blank(), 
         panel.grid.minor.y = element_blank()) 
-dfVictima
-
+ggplotly(dfVictima)
 ```
 
-```{r}
+```{r echo=FALSE}
 cat("4. En esta observamos una comparación tomando en cuenta dos variables, analizando tipo de delito por género de la víctima. Esto en forma de gráfica de barras apilada. De acuerdo a la distribución observamos que una gran cantidad tanto de hombres como mujeres sufren por hurto. No obstante, también se nota que gran parte de personas asaltadas son hombres. Además, podemos resaltar que el aspecto de homicidio, la gran mayoría de estas víctimas han sido varones.")
 ```
 
-```{r}
+```{r echo=FALSE}
 # 2 variables
 dfDelGen <-  ggplot(datos, aes(x = Delito, fill = Genero)) +
   geom_bar(position = "stack", color = "black") +
@@ -88,14 +90,14 @@ dfDelGen <-  ggplot(datos, aes(x = Delito, fill = Genero)) +
   theme(legend.position = "top",
         axis.text.x = element_text(angle = 45, hjust = 1))
 
-print(dfDelGen)
+ggplotly(dfDelGen)
 ```
 
-```{r}
+```{r echo=FALSE}
 cat("4. Podemos obtener a partir de esta grafica, una idea de la cantidad de cada tipo de delito de acuerdo a la hora del día. Según observamos, los hurtos son más comunes durante el pleno día, el cual es el más común, pero los otros delitos son más ocurrentes durante la noche. Por esto aun se puede deducir que salir durante la noche es menos seguro, pero aun así hay crímenes ocurriendo a toda hora por lo que se debe ser cuidadoso siempre.")
 ```
 
-```{r}
+```{r echo=FALSE}
 # 2 variables
 dfDelHor <- datos %>% 
   ggplot(aes(x = Hora, group = Delito, color = Delito)) +
@@ -104,18 +106,38 @@ dfDelHor <- datos %>%
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "bottom")
 
-print(dfDelHor)
+ggplotly(dfDelHor)
 ```
 
-```{r}
+```{r echo=FALSE}
 cat("5. Variables multiples" )
 ```
 
-```{r}
-cat("6. En la siguiente faceta de graficas se presenta una distribución de cantidad de delitos por provincia a la que pertenece la víctima, separados de acuerdo a la edad de esta víctima. De acuerdo a esta información podemos observar que el tipo de víctima más recurrente se puede identificar como adultos de San José.")
+```{r include=FALSE}
+
+dfTreemap <- datos 
+dfTreemap <- datos %>% mutate(value = 1)
+
+grafThree <- treemap(dfTreemap,
+                     index=c("Delito", "SubDelito", 
+                             "Provincia", "Canton", "Distrito"),
+                     type="index",
+                     vSize = "value",
+                     palette = "Set2")
+  
+treemapD3 <- d3tree2( grafThree, rootname = "General" )
 ```
 
-```{r}
+```{r echo=FALSE}
+#5 variables
+treemapD3
+```
+
+```{r echo=FALSE}
+cat( "6. En la siguiente faceta de graficas se presenta una distribución de cantidad de delitos por provincia a la que pertenece la víctima, separados de acuerdo a la edad de esta víctima. De acuerdo a esta información podemos observar que el tipo de víctima más recurrente se puede identificar como adultos de San José." )
+```
+
+```{r echo=FALSE}
 # Facetas
 dfProvEdad <- datos %>% 
   ggplot(aes(x = Provincia, fill = Provincia)) +
@@ -125,15 +147,15 @@ dfProvEdad <- datos %>%
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
-print(dfProvEdad)
+ggplotly(dfProvEdad)
 
 ```
 
-```{r}
+```{r echo=FALSE}
 cat("7. Imagen compuesta" )
 ```
 
-```{r}
+```{r echo=FALSE}
 dfGrafOne <- datos %>% mutate(HoraCuan =  ifelse(Hora == "21:00:00 - 23:59:59", 0.7,
                                                  ifelse(Hora == "18:00:00 - 20:59:59", 0.6,
                                                         ifelse(Hora == "00:00:00 - 02:59:59", 0.0,
@@ -227,33 +249,4 @@ grafTwo <-
         )
 
 subplot(grafThree, grafTwo, GrafOne ,shareY = FALSE, nrows = 3, margin = 0.06 ) %>% layout(title ="Combined grafics")
-```
-
-```{r}
-#5 variables
-dfTreemap <- datos 
-dfTreemap <- datos %>% mutate(value = ifelse(Delito == "ASALTO", 1,
-                                             ifelse(Delito == "HOMICIDIO", 1,
-                                                    ifelse(Delito == "HURTO", 1,
-                                                           ifelse(Delito == "ROBO", 1,
-                                                                  ifelse(Delito == "ROBO DE VEHICULO", 1, 1
-                                                                         )
-                                                                  )
-                                                           )
-
-                                                    )
-                                             )
-                              )
-grafThree = treemap(dfTreemap,
-            index=c("Delito", "SubDelito", "Provincia", "Canton", "Distrito"),
-            type="index",
-            vSize = "value",
-            palette = "Set2",
-            bg.labels=c("white"),
-            align.labels=list(
-              c("center", "center"), 
-              c("right", "bottom")))  
-
-treemapD3 = d3tree2( grafThree, rootname = "General" )
-treemapD3
 ```
