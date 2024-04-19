@@ -1,19 +1,29 @@
 <h1>Proyecto de visualización de información</h1>
 
 <style>
+        h1{
+            position: relative;
+            left: 30%;
+        }
         .firstP{
-            color:red;
-            box-shadow: 0.1px 0.1px 0.1cm black;
+            position: relative;
+            left: 30%;
+            width: fit-content;
         }
         .card{
-
-            color:red;
-            box-shadow: 0.1px 0.1px 0.1cm black;
+            position: relative;
+            left: 30%;
+            box-shadow: 0.1px 0.5px 0.6cm black;
+            width: fit-content;
         }
 
     </style>
 
-<p style="color:gray;" class="firstP">Este es un proyecto que tiene la finalidad de mostrar los datos recopilados de tal manera en que desarrollemos un informe/analisis de lo visto</p>
+<article class="firstP">
+<p >Este es un proyecto que tiene la finalidad de mostrar los datos recopilados </p> 
+<p >  de tal manera en que desarrollemos un informe/analisis de lo visto</p>
+</article>
+<hr>
 <div class="card">
 <a href="https://kindredjester6.github.io/GraficasEstsPoliciales-R/Pagina" title="Enlace al proyecto" target="_self"><image src="https://github.com/kindredjester6/GraficasEstsPoliciales-R/assets/79023959/858a3164-1c41-4204-a383-d3f6c0aa1806" width="300" height="200" title="Previsualización del proyecto" rel="next"></image></a>
 </div>
