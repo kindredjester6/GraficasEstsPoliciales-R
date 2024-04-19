@@ -2,6 +2,13 @@
 ---
 ---
 
+```{=html}
+<style>
+  p{
+    font-size: 3vh;
+  }
+</style>
+```
 ```{r echo=FALSE, include=FALSE}
 
 #install.packages("readxl")
@@ -24,14 +31,16 @@ datos <- read_excel(Ruta_archivo)
 
 ```
 
-```{r echo=FALSE}
-cat("La presente página tiene como objetivo mostrar una representación visual de varios datos que se nos brindaron con relación a las estadísticas policiales en Costa Rica. Estas  se exhiben en varios métodos con tal de hacerlas ver interesantes y comprensibles.")
+```{=html}
+<h1>La presente página tiene como objetivo mostrar una representación visual de varios datos que se nos brindaron con relación a las estadísticas policiales en Costa Rica. Estas  se exhiben en varios métodos con tal de hacerlas ver interesantes y comprensibles.</h1>
+<hr>
 ```
-
-```{r echo=FALSE}
-cat("1. La siguiente gráfica presenta en forma de barras, una comparación en cuanto a los tipos de delito que se han reportado. A partir de esto podemos deducir que el hurto es el delito más común, mientras que el homicidio es el menos ocurrido.")
+```{=html}
+<h2>1 Variable</h2>
 ```
-
+```{=html}
+<p> 1. La siguiente gráfica presenta en forma de barras, una comparación en cuanto a los tipos de delito que se han reportado. A partir de esto podemos deducir que el hurto es el delito más común, mientras que el homicidio es el menos ocurrido.</p>
+```
 ```{r echo=FALSE}
 #1 variable
 dfDelitos <- datos %>% ggplot(aes(x=Delito, y=1)) +
@@ -42,10 +51,9 @@ dfDelitos <- datos %>% ggplot(aes(x=Delito, y=1)) +
 ggplotly(dfDelitos)
 ```
 
-```{r echo=FALSE}
-cat("2. Como se puede apreciar en la siguiente gráfica la cual presenta un mosaico distribuido proporcionalmente de acuerdo a la cantidad de víctimas divididas por género, la gran mayoría de víctimas han sido del género masculino,abarcando más de la mitad de sucesos reportados, mientras que la cantidad de víctimas de genero femenino es notablemente menor, y casos donde se desconoce el género de la víctima los menos comunes.")
+```{=html}
+<p> 2. Como se puede apreciar en la siguiente gráfica la cual presenta un mosaico distribuido proporcionalmente de acuerdo a la cantidad de víctimas divididas por género, la gran mayoría de víctimas han sido del género masculino,abarcando más de la mitad de sucesos reportados, mientras que la cantidad de víctimas de genero femenino es notablemente menor, y casos donde se desconoce el género de la víctima los menos comunes.</p>
 ```
-
 ```{r echo=FALSE, include=FALSE}
 #1 variable
 dfGenero <- datos %>% ggplot() +
@@ -60,10 +68,9 @@ plotlyMosaic <- ggplotly(dfGenero)
 plotlyMosaic
 ```
 
-```{r echo=FALSE}
-cat("3. En esta gráfica podemos observar los tipos de víctima afectada en forma de strip plots, de manera que se muestran los casos como puntos en la gráfica de acuerdo al tipo. Entre más densa la población en cada espacio, mayor la cantidad de ocurrencias donde esa fue la víctima afectada. En este caso, observamos que la situación donde la víctima es una persona es significativamente mayor que las demás. Además, existe una similar cantidad donde la víctima es un bien material como vivienda o vehículo.")
+```{=html}
+<p> 3. En esta gráfica podemos observar los tipos de víctima afectada en forma de strip plots, de manera que se muestran los casos como puntos en la gráfica de acuerdo al tipo. Entre más densa la población en cada espacio, mayor la cantidad de ocurrencias donde esa fue la víctima afectada. En este caso, observamos que la situación donde la víctima es una persona es significativamente mayor que las demás. Además, existe una similar cantidad donde la víctima es un bien material como vivienda o vehículo.</p>
 ```
-
 ```{r echo=FALSE}
 #1 variable
 dfVictima <- datos %>%
@@ -77,10 +84,12 @@ dfVictima <- datos %>%
 ggplotly(dfVictima)
 ```
 
-```{r echo=FALSE}
-cat("4. En esta observamos una comparación tomando en cuenta dos variables, analizando tipo de delito por género de la víctima. Esto en forma de gráfica de barras apilada. De acuerdo a la distribución observamos que una gran cantidad tanto de hombres como mujeres sufren por hurto. No obstante, también se nota que gran parte de personas asaltadas son hombres. Además, podemos resaltar que el aspecto de homicidio, la gran mayoría de estas víctimas han sido varones.")
+```{=html}
+<h2>2 Variables</h2>
 ```
-
+```{=html}
+<p> 1. En esta observamos una comparación tomando en cuenta dos variables, analizando tipo de delito por género de la víctima. Esto en forma de gráfica de barras apilada. De acuerdo a la distribución observamos que una gran cantidad tanto de hombres como mujeres sufren por hurto. No obstante, también se nota que gran parte de personas asaltadas son hombres. Además, podemos resaltar que el aspecto de homicidio, la gran mayoría de estas víctimas han sido varones.</p>
+```
 ```{r echo=FALSE}
 # 2 variables
 dfDelGen <-  ggplot(datos, aes(x = Delito, fill = Genero)) +
@@ -93,10 +102,9 @@ dfDelGen <-  ggplot(datos, aes(x = Delito, fill = Genero)) +
 ggplotly(dfDelGen)
 ```
 
-```{r echo=FALSE}
-cat("4. Podemos obtener a partir de esta grafica, una idea de la cantidad de cada tipo de delito de acuerdo a la hora del día. Según observamos, los hurtos son más comunes durante el pleno día, el cual es el más común, pero los otros delitos son más ocurrentes durante la noche. Por esto aun se puede deducir que salir durante la noche es menos seguro, pero aun así hay crímenes ocurriendo a toda hora por lo que se debe ser cuidadoso siempre.")
+```{=html}
+<p> 2. Podemos obtener a partir de esta grafica, una idea de la cantidad de cada tipo de delito de acuerdo a la hora del día. Según observamos, los hurtos son más comunes durante el pleno día, el cual es el más común, pero los otros delitos son más ocurrentes durante la noche. Por esto aun se puede deducir que salir durante la noche es menos seguro, pero aun así hay crímenes ocurriendo a toda hora por lo que se debe ser cuidadoso siempre.</p>
 ```
-
 ```{r echo=FALSE}
 # 2 variables
 dfDelHor <- datos %>% 
@@ -109,10 +117,12 @@ dfDelHor <- datos %>%
 ggplotly(dfDelHor)
 ```
 
-```{r echo=FALSE}
-cat("5. Variables multiples" )
+```{=html}
+<h2>3 Variables</h2>
 ```
-
+```{=html}
+<p> Este treemap muestra mucha informacion a la hora de identificar las zonas con mayor densidad a partir del tamaño de sus rectangulos, e incluso la cantidad del mismo. Es bastante util en momento de querer desvelar el tipo de delito e ir a partir de ahí delimitar el territorio en el momento en que clikeas el rectangulo hasta llegar al distrito deseado, por lo que es muy practico de usar si a lo que quieres llegar es en que destinos pueden ser poco deseables según los datos propuestos.</p>
+```
 ```{r include=FALSE}
 
 dfTreemap <- datos 
@@ -133,10 +143,12 @@ treemapD3 <- d3tree2( grafThree, rootname = "General" )
 treemapD3
 ```
 
-```{r echo=FALSE}
-cat( "6. En la siguiente faceta de graficas se presenta una distribución de cantidad de delitos por provincia a la que pertenece la víctima, separados de acuerdo a la edad de esta víctima. De acuerdo a esta información podemos observar que el tipo de víctima más recurrente se puede identificar como adultos de San José." )
+```{=html}
+<h2>Facetas</h2>
 ```
-
+```{=html}
+<p> En la siguiente faceta de graficas se presenta una distribución de cantidad de delitos por provincia a la que pertenece la víctima, separados de acuerdo a la edad de esta víctima. De acuerdo a esta información podemos observar que el tipo de víctima más recurrente se puede identificar como adultos de San José.</p>
+```
 ```{r echo=FALSE}
 # Facetas
 dfProvEdad <- datos %>% 
@@ -148,13 +160,14 @@ dfProvEdad <- datos %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 
 ggplotly(dfProvEdad)
-
 ```
 
-```{r echo=FALSE}
-cat("7. Imagen compuesta" )
+```{=html}
+<h2>Imagen compuestada</h2>
 ```
-
+```{=html}
+<p> En este conjunto de graficos hemos recopilado distintos escenarios, de los cuales son la cantidad de muertes que se producen en dichas provincias. Luego ha sido desvelar la cantidad de delitos, pero en el contexto en que vemos el genero del que los comete. Mientras que en la ultima se muestra una grafica que muestra las horas del cual es más probable que ocurra un delito, ha su vez se muestra una linea vertical que desvela el promedio de delitos.</p>
+```
 ```{r echo=FALSE}
 dfGrafOne <- datos %>% mutate(HoraCuan =  ifelse(Hora == "21:00:00 - 23:59:59", 0.7,
                                                  ifelse(Hora == "18:00:00 - 20:59:59", 0.6,
