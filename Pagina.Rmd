@@ -43,8 +43,8 @@ datos <- read_excel(Ruta_archivo)
 ```
 ```{r echo=FALSE}
 #1 variable
-dfDelitos <- datos %>% ggplot(aes(x=Delito, y=1)) +
-  geom_bar(stat = "identity", aes(fill="")) +
+dfDelitos <- datos %>% ggplot(aes(x=Delito)) +
+  geom_bar(aes(fill="red")) +
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 45, hjust = 1)) +  
   labs(y = "Numero de delitos")
